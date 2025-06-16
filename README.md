@@ -1,42 +1,49 @@
-# 🧠 Conflict Catcher – Google Calendar Conflict Notifier
+# Calendar Conflict Catcher
 
-Conflict Catcher is a Google Apps Script that scans your Google Calendar for overlapping events over the next 7 days and emails a summary of potential conflicts. It's designed for executives or busy professionals who want to catch conflicts before the day-of, and for EAs who manage complex schedules.
+Automatically detect and email upcoming calendar conflicts from your Google Calendar — especially those involving high-priority or external meetings. This script helps busy professionals surface potential double-bookings before they become a problem.
 
-## ✨ Features
+## 🔍 What It Does
 
-- Scans upcoming 7 days for overlapping calendar events
-- Skips known "low priority" events like "Hold", "Tentative", or "OOO"
-- Ignores events with identical titles (e.g. duplicate invites)
-- Logs previously reported conflicts to avoid duplicate alerts
-- Includes a manual "Ignore List" for recurring conflicts you want to suppress
-- Sends a human-readable email digest of new conflicts
+- Scans your next 7 days of calendar events
+- Detects overlaps between meetings
+- Prioritizes conflicts that include:
+  - Meetings with external participants (outside your org)
+  - Events titled "HOLD" (treated as high priority)
+- Filters out low-priority events (e.g. "fyi", "out of office", "tentative")
+- Groups conflicts by urgency:
+  - ⏱ Within 24 hours
+  - 📆 Within 48 hours
+  - 📅 Beyond 48 hours
+- Sends an automated email summary of conflicts with links to each event
 
-## 📁 Google Sheet Setup
+## 🛠 Setup Instructions
 
-Create a Google Sheet with two tabs:
+1. **Create a Google Sheet**
+   - Add two tabs:
+     - `Log` with columns: `First Event ID`, `Second Event ID`, `Date`
+     - `Ignore` with columns: `First Event ID`, `Second Event ID`
 
-### Tab 1: `Log`
-| First Event ID | Second Event ID | Conflict Date |
-|----------------|------------------|----------------|
+2. **Copy the Script**
+   - Paste the contents of `CalendarConflictCatcher.gs` into a [Google Apps Script project](https://script.google.com)
+   - Replace `YOUR_SHEET_ID` with your Google Sheet ID (found in the URL)
 
-### Tab 2: `Ignore`
-| First Event ID | Second Event ID | Note |
-|----------------|------------------|------|
+3. **Set a Trigger**
+   - In Apps Script: go to `Triggers > Add Trigger`
+   - Choose `sendCalendarConflictEmail`
+   - Set it to run once per day (or more frequently)
 
-## 🔧 Installation
+4. **Update the Recipient**
+   - Replace `elliott.mower@mediacurrent.com` with your own or your assistant’s email
 
-1. Open [Google Apps Script](https://script.google.com)
-2. Create a new project and paste in the code from `Code.gs`
-3. Replace `"YOUR_SHEET_ID"` with your actual Sheet ID from the URL
-4. Replace the placeholder email with your own
-5. Set a time-based trigger to run `sendCalendarConflictEmail` daily
+## ✨ Customization Options
 
-## 🔄 Future Ideas
-
-- Slack integration
-- Google Sheets dashboard for heatmapping
-- Google Form for managing the ignore list
+You can tweak:
+- Internal domains to detect external guests
+- Priority keywords like `"hold"`
+- Time window for detection
+- Message formatting (HTML or plain text)
 
 ---
 
-Made with ☕ by a calendar conflict survivor.
+Built for busy people who need eyes on calendar chaos — before it causes real trouble.
+
